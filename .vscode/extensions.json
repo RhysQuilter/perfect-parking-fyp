@@ -9,6 +9,7 @@
         "wmaurer.change-case",
         "maptz.camelcasenavigation",
         "jebbs.plantuml",
-        "alanwalk.markdown-navigation"
+        "alanwalk.markdown-navigation",
+        "ms-toolsai.jupyter"
     ]
 }

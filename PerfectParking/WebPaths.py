@@ -1,4 +1,5 @@
-# The paths for the templates.
+""" The paths for the templates."""
+
 PARKING_LOTS = 'parking-lots'
 """The path for the parking lots page."""
 REGISTER_USER = 'register-user'

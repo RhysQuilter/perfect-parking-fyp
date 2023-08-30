@@ -15,7 +15,7 @@ class ParkingSpot:
 
     def __init__(self, coordinates: ndarray, parking_spot_id: int):
         self.coordinates: ndarray = coordinates
-        self.is_occupied: bool = False
+        self.is_vacant: bool = False
         self.parking_spot_id: int = parking_spot_id
         self.rect = boundingRect(self.coordinates)
         self.mask:list = self.create_contours_mask()
@@ -43,34 +43,34 @@ class ParkingSpot:
         occupied or not occupied."""
         x, y, width, height = self.rect
 
-        parking_spot_image:Mat = blurred_grayed_image[y:(y + height), x:(x + width)]
+        parking_spot_image:Mat = blurred_grayed_image[y:(y + height), x:(x + width)] # Cropping the image to the parking spot only
         laplacian = cv2.Laplacian(parking_spot_image, cv2.CV_64F)
 
         laplacian_mean: float = numpy.mean(numpy.abs(laplacian * self.mask))
-        self.is_occupied = laplacian_mean < MotionDetector.LAPLACIAN_UPPER_LIMIT
+        self.is_vacant = laplacian_mean < MotionDetector.LAPLACIAN_UPPER_LIMIT
 
 
-    def has_changed(self, is_occupied: bool) -> bool:
+    def has_changed(self, is_vacant: bool) -> bool:
         """Checks if the parking occupancy has changed.
 
         Args:
-            is_occupied (bool): True if the parking spot is occupied, False otherwise.
+            is_vacant (bool): True if the parking spot is vacant, False otherwise.
 
         Returns:
-            bool: Returns True if the parking spot occupancy has changed, False otherwise.
+            bool: Returns True if the parking spot vacancy has changed, False otherwise.
         """
-        return self.is_occupied != is_occupied
+        return self.is_vacant != is_vacant
 
-    def has_not_changed(self, is_occupied: bool) -> bool:
+    def has_not_changed(self, is_vacant: bool) -> bool:
         """Checks if the parking occupancy has not changed.
 
         Args:
-            is_occupied (bool): True if the parking spot is occupied, False otherwise.
+            is_occupied (bool): True if the parking spot is vacant, False otherwise.
 
         Returns:
-            bool: Returns True if the parking spot occupancy has not changed, False otherwise.
+            bool: Returns True if the parking spot vacancy has not changed, False otherwise.
         """
-        return self.is_occupied == is_occupied
+        return self.is_vacant == is_vacant
 
         
 class MotionDetector:
@@ -79,7 +79,7 @@ class MotionDetector:
 
     def __init__(self, video, parking_spots_json_dict, start_frame, parking_monitor_data: ParkingMonitorData):
         self.video = video
-        self.parking_spots: list = [
+        self.parking_spots: list[ParkingSpot] = [
             ParkingSpot(numpy.array(parking_spot_json_dict["coordinates"]), parking_spot_json_dict["id"])
             for parking_spot_json_dict in parking_spots_json_dict
         ]
@@ -96,8 +96,6 @@ class MotionDetector:
             bool: True if the video was stopped by a key press, False otherwise.
         """
         video_capture:VideoCapture = VideoCapture(self.video)
-        #video_capture:VideoCapture = VideoCapture(0, cv2.CAP_DSHOW)
-        #video_capture.set(cv2.CAP_PROP_POS_FRAMES, self.start_frame)
 
         free_spaces: int = 0
         while True:
@@ -120,25 +118,28 @@ class MotionDetector:
 
             self.display_image(video_frame)
 
-            # Wait 10 seconds and then print the number of empty spaces
             free_spaces_in_frame = len(self.parking_spots) - self.count_occupied_parking_spaces()
-            if free_spaces != free_spaces_in_frame:
+            if free_spaces != free_spaces_in_frame: # If the number of free spaces has changed
                 self.on_free_parking_spaces_changed(
                     len(self.parking_spots), free_spaces_in_frame)
                 free_spaces = free_spaces_in_frame
 
-            k = cv2.waitKey(1)
+            key = cv2.waitKey(1)
 
-            if k == ord("q"):
+            if key == ord("q"):
                 return True
             time.sleep(SECONDS_TIME_DELAY)
         video_capture.release()
-        cv2.destroyAllWindows()
+        destroyAllWindows()
         return False
 
     def display_image(self, video_frame:Mat):
+        """ Displays the image with the parking spots marked.
+        Args:
+            video_frame (Mat): The video frame to display.
+        """
         for parking_spot in self.parking_spots:
-            color:tuple = COLOR_GREEN if parking_spot.is_occupied else COLOR_BLUE
+            color:tuple = COLOR_GREEN if parking_spot.is_vacant else COLOR_BLUE
             parking_spot_text:str = str(parking_spot.parking_spot_id)
             draw_contours(video_frame, parking_spot.coordinates, parking_spot_text, COLOR_WHITE, color)
         imshow("Press q to quit", video_frame)
@@ -149,7 +150,7 @@ class MotionDetector:
         Returns:
             int: The number of occupied parking spaces.
         """
-        return sum(1 for parking_spot in self.parking_spots if parking_spot.is_occupied)
+        return sum(1 for parking_spot in self.parking_spots if not parking_spot.is_vacant)
 
 
     def on_free_parking_spaces_changed(self, spaces_in_frame: int, free_spaces_in_frame: float) -> None:

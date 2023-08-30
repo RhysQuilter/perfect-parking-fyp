@@ -73,8 +73,8 @@ class RestApiUtility:
             "latitude": parking_monitor_data.latitude,
             "longitude":  parking_monitor_data.longitude,
             "probabilityParkingAvailable": "{:.2f}".format(probability_parking_available),
+            "free_parking_spaces": free_spaces_in_frame,
             # "image": image_base_64_encoded,
-            # "free_spaces": free_spaces
         }
 
     @staticmethod

@@ -84,7 +84,7 @@ class ParkingLotMonitor(models.Model):
         Returns:
             int: The occupancy % rate of the parking lot.
         """
-        return round(100 - self.probabilityParkingAvailable * 100)
+        return 100 - self.get_vacancy_rate()
 
     def get_vacancy_rate(self) -> int:
         """Gets the vacancy % rate of the parking lot.

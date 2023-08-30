@@ -1,17 +1,18 @@
+"""A mock client for the PerfectParking server"""
 import json
-from cv2 import waitKey
-from perfectparking import ParkingMonitorData, RestApiUtility
-from requests import request
 import logging
 import random
 import time
+from cv2 import waitKey
+from perfectparking import ParkingMonitorData, RestApiUtility
+from requests import request, Response
 
 def main():
     """Main function"""
     logging.basicConfig(level=logging.INFO)
 
     # Initialize the mock data array with five mock config files
-    parking_monitor_data_mocks:list(ParkingMonitorData) =[]
+    parking_monitor_data_mocks:list[ParkingMonitorData] =[]
     for number in range(1, 5):
         parking_monitor_data_mocks.append(ParkingMonitorData(f"PerfectParkingClient/mock-{number}-config.ini"))
 
@@ -48,7 +49,7 @@ def send_mock_put_request(parking_monitor_data:ParkingMonitorData):
     parking_spaces:int = int(parking_monitor_data.parking_spaces)
     free_spaces_in_frame:int = random.randint(0, parking_spaces)
     probability_parking_available:float = free_spaces_in_frame / parking_spaces
-    response: request.Response = RestApiUtility.update_server_parking_monitor_data(
+    response: Response = RestApiUtility.update_server_parking_monitor_data(
         parking_monitor_data, free_spaces_in_frame, probability_parking_available
     )
     print(json.dumps(response.json(), indent=4))

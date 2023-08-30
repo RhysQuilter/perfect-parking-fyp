@@ -139,3 +139,8 @@ REST_FRAMEWORK = {
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = '/'
+
+# Change the default port from 8000 to 8001
+# https://yashodgayashan.medium.com/how-to-change-django-port-dbe55dbc7295
+from django.core.management.commands.runserver import Command as runserver
+runserver.default_port = 8000

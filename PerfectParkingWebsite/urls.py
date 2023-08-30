@@ -18,13 +18,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-import PerfectParking.viewsets as viewsets
+from PerfectParking import viewsets
 
 router = routers.DefaultRouter()
-router.register(r'users', viewsets.UserViewSet)
 router.register(r'groups', viewsets.GroupViewSet)
 router.register(r'parking-lots', viewsets.ParkingLotViewSet)
 router.register(r'parking-lot-monitors', viewsets.ParkingLotMonitorViewSet)
+router.register(r'parking-lot-logs', viewsets.ParkingLotLogViewSet)
+router.register(r'parking-request-logs', viewsets.ParkingRequestLogViewSet)
+router.register(r'users', viewsets.UserViewSet)
 
 urlpatterns = [
     path('', include('PerfectParking.urls')),

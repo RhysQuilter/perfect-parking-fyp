@@ -9,13 +9,13 @@
 <table class="table table-striped" aria-describedby="mydesc">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Hours</th>
-            <th>Is Paid Parking</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Image</th>
+            <th class="text-nowrap">Name</th>
+            <th class="text-nowrap">Address</th>
+            <th class="text-nowrap">Hours</th>
+            <th class="text-nowrap">Paid Parking</th>
+            <th class="text-nowrap">Latitude</th>
+            <th class="text-nowrap">Longitude</th>
+            <th class="text-nowrap">Image</th>
         </tr>
     </thead>
     <tbody>
@@ -24,9 +24,9 @@
             <td><a href="{% url 'parking-lot' parking_lot.id %}">{{ parking_lot.name }}</a></td>
             <td>{{ parking_lot.address }}</td>
             <td>{{ parking_lot.hours }}</td>
-            <td>{{ parking_lot.isPaidParking }}</td>
-            <td>{{ parking_lot.latitude }}</td>
-            <td>{{ parking_lot.longitude }}</td>
+            <td>{% if parking_lot.isPaidParking is True %}Yes{% else %}No{% endif %}</td>
+            <td>{{ parking_lot.latitude|floatformat:5 }}</td>
+            <td>{{ parking_lot.longitude|floatformat:5 }}</td>
             <td><img src="{{ parking_lot.image.url }}" alt="Image of {{ parking_lot.name }}" width="30px" height="15px" /></td>
         {% endfor %}
     </tbody>
