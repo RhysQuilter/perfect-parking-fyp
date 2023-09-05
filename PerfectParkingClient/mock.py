@@ -13,7 +13,7 @@ def main():
 
     # Initialize the mock data array with five mock config files
     parking_monitor_data_mocks:list[ParkingMonitorData] =[]
-    for number in range(1, 5):
+    for number in range(1, 6):
         parking_monitor_data_mocks.append(ParkingMonitorData(f"PerfectParkingClient/mock-{number}-config.ini"))
 
     while True: # Infinite loop with Key press option to stop
