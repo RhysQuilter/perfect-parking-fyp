@@ -92,7 +92,7 @@ class RestApiUtility:
             "Authorization": f"Token {parking_monitor_data.app_token}",
             "Content-Type": "application/json",
         }
-        request_url = f"{parking_monitor_data.server_url}/{parking_monitor_data.id}/"
+        request_url:str = f"{parking_monitor_data.server_url}/{parking_monitor_data.id}/"
         return RestApiUtility.send_put_request(parking_monitor_data,
                                                request_headers,
                                                request_json,
@@ -158,3 +158,4 @@ def create_image_from_video(image_file_path:str, video_connection_string:str) ->
 
     video_capture.release()
     destroyAllWindows()
+

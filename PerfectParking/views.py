@@ -87,7 +87,7 @@ def parking_lot_monitor(request, parking_lot_monitor_id):
     )
 
 
-def parking_lot_monitors(request):
+def parking_lot_monitors(request): # Search page
     """Builds the parking lot monitors page.
 
     Args:

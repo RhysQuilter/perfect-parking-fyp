@@ -78,7 +78,7 @@ class MotionDetector:
     LAPLACIAN_UPPER_LIMIT = 1.4
 
     def __init__(self, video, parking_spots_json_dict, start_frame, parking_monitor_data: ParkingMonitorData):
-        self.video = video
+        self.video = video #Video Connection String: Can be url or file path
         self.parking_spots: list[ParkingSpot] = [
             ParkingSpot(numpy.array(parking_spot_json_dict["coordinates"]), parking_spot_json_dict["id"])
             for parking_spot_json_dict in parking_spots_json_dict
