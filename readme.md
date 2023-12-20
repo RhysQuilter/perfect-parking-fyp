@@ -1,5 +1,5 @@
 
-# [Perfect Parking](https://github.com/rhys-lit/perfect-parking-fyp/)
+# [Perfect Parking](https://github.com/rhysquilter/perfect-parking-fyp/)
 
 Perfect Parking aims to create a parking system that will replace outdated systems and help stop the widespread problem that is parking in our cities. The goal of this project is to improve the effectiveness of finding parking spaces and to also relieve the stress of the users looking for parking by implementing new and innovative features. This will be done by building a client-server API and website that will show the user exactly where the parking is. The server will be supported by parking monitor clients powered by OpenCV to detect if a parking spot has been filled or made empty. To read more, please see the [thesis](./docs/thesis.pdf).
 
@@ -29,7 +29,7 @@ Perfect Parking aims to create a parking system that will replace outdated syste
 Clone the repository
 
 ```bash
-git clone https://github.com/rhys-lit/perfect-parking-fyp.git
+git clone https://github.com/rhysquilter/perfect-parking-fyp.git
 ```
 
 There are three applications in this project: the website server, a client parking monitor and a mock client parking monitor.
@@ -127,4 +127,4 @@ python PerfectParkingClient/mock.py
 You can stop the mock client by pressing `q` at any time.
 
 ---
-Copyright &copy; 2023, [Rhys Quilter](https://github.com/rhys-lit)
+Copyright &copy; 2023, [Rhys Quilter](https://github.com/rhysquilter)

@@ -12,7 +12,7 @@ An app that allows users to find parking spots in the city of Limerick for my FY
 1. Clone the repository
 
     ```bash
-    git clone https://github.com/Rhys-LIT/perfect-parking-fyp.git
+    git clone https://github.com/rhysquilter/perfect-parking-fyp.git
     ```
 
 2. Install dependencies
